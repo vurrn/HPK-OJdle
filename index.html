@@ -100,11 +100,9 @@
 
         const currentDate = new Date();
         let currentDay = Math.floor((currentDate.getTime() / 60000 - currentDate.getTimezoneOffset()) / 1440);
-        console.log(currentDay);
         if (currentDay < 20353) {
             currentDay = 20353;
         }
-        console.log(currentDay);
 
         // Get DOM elements
         const guessTable = document.getElementById('guessTable');
@@ -253,6 +251,8 @@
                 if (selectedJump === correctJump || attempt === 6) {
                     const button = document.getElementById('enter');
                     button.removeAttribute('type');
+                    jumpInput.removeAttribute('id');
+                    jumpInput.removeAttribute('list');
                     button.setAttribute('onclick', 'copyResults()');
                     button.textContent = "Share";
                     jumpInput.setAttribute('readonly', true);
@@ -340,9 +340,15 @@
         }
 
         function checkTags(guess, correct) {
-            jumpData[guess][2].sort();
-            jumpData[correct][2].sort();
-            if (jumpData[guess][2] === jumpData[correct][2]) {
+            let guessTag = jumpData[guess][2];
+            let correctTag = jumpData[correct][2];
+            guessTag.sort();
+            correctTag.sort();
+            guessTag = guessTag.join();
+            correctTag = correctTag.join();
+            console.log(guessTag);
+            console.log(correctTag);
+            if (guessTag === correctTag) {
                 return ["#00B000", "🟩"];
             } else {
                 let foundTag = false;
@@ -371,9 +377,16 @@
         }
 
         function checkSeries(guess, correct) {
-            jumpData[guess][4].sort();
-            jumpData[correct][4].sort();
-            if (jumpData[guess][4] === jumpData[correct][4]) {
+            let guessSeries = jumpData[guess][4];
+            let correctSeries = jumpData[correct][4];
+            guessSeries.sort();
+            correctSeries.sort();
+            guessSeries = guessSeries.join();
+            correctSeries = correctSeries.join();
+            console.log(guessSeries);
+            console.log(correctSeries);
+            if (guessSeries === correctSeries) {
+                console.log('help');
                 return ["#00B000", "🟩"];
             } else {
                 let foundSeries = false;
@@ -409,5 +422,4 @@
             }
         }
     </script>
-
 </html>
