@@ -1,0 +1,412 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HPK OJdle</title>
+    <style>
+        h1, h2, h3, p, .centerContainer {
+            text-align: center;
+            color: white;
+        }
+        h1 {
+            font-family: 'Arial';
+            font-size: 48px;
+            margin-bottom: 0px;
+        }
+        table {
+            margin: auto;
+            width: 1280px;
+            table-layout: fixed;
+        }
+        tr {
+            border: 1px solid #A0A0A0;
+            padding: 8px;
+            text-align: center;
+            color: white;
+        }
+        th {
+            border: 1px solid #A0A0A0;
+            padding: 8px;
+            height: 20px;
+            text-align: center;
+            color: white;
+        }
+        td {
+            border: 1px solid #A0A0A0;
+            padding: 8px;
+            height: 36px;
+            text-align: center;
+            color: white;
+        }
+        th:nth-child(1), td:nth-child(1) {
+            width: 220px;
+        }
+        th:nth-child(2), td:nth-child(2) {
+            width: 60px;
+        }
+        th:nth-child(3), td:nth-child(3) {
+            width: 80px;
+        }
+        th:nth-child(5), td:nth-child(5) {
+            width: 90px;
+        }
+        th:nth-child(6), td:nth-child(6) {
+            width: 170px;
+        }
+        th:nth-child(7), td:nth-child(7) {
+            width: 110px;
+        }
+        th:nth-child(8), td:nth-child(8) {
+            width: 70px;
+        }
+    </style>
+</head>
+<body style="background-color: #333333">
+    <h1><b>HPK OJdle</b></h1>
+    <p>🟥 Incorrect/no match | 🟨 Partial match | 🟩 Correct/perfect match | ⬆️ Correct value is higher | ⬇️ Correct value is lower</p>
+    <table id="guessTable">
+        <tr>
+            <th>Jump Name</th>
+            <th>OJ ID</th>
+            <th>Difficulty</th>
+            <th>Tags</th>
+            <th>Clear Rate</th>
+            <th>Series</th>
+            <th>Verifier</th>
+            <th>Airtime</th>
+        </tr>
+    </table>
+    <div id="guessArea" class="centerContainer">
+        <form id="searchForm">
+            <h3 id="attemptCounter">Attempts: 0/6</h3>
+            <label for="jumpInput">Enter a jump:</label>
+            <input type="text" id="jumpInput" size="40" list="jumpList" placeholder="Enter jump name">
+            <datalist id="jumpList"></datalist>
+            <button type="submit" id="enter">Enter</button>
+        </form>
+    </div>
+    
+    <div id="resultSection">
+        <p id="commentValue"></p>
+        <p id="test"></p>
+    </div>
+
+    <script>
+        let attempt = 1;
+        let resultText = "";
+        let correctJump = "";
+        let game = true;
+
+        const currentDate = new Date();
+        let currentDay = Math.floor((currentDate.getTime() / 60000 - currentDate.getTimezoneOffset()) / 1440);
+        console.log(currentDay);
+        if (currentDay < 20353) {
+            currentDay = 20353;
+        }
+        console.log(currentDay);
+
+        // Get DOM elements
+        const guessTable = document.getElementById('guessTable');
+        const searchForm = document.getElementById('searchForm');
+        const jumpInput = document.getElementById('jumpInput');
+        const jumpListDatalist = document.getElementById('jumpList');
+        const commentValue = document.getElementById('commentValue');
+        const attemptCounter = document.getElementById('attemptCounter');
+        
+        // Add rows and data cells to the table
+        for (let row = 1; row < 7; row++) {
+            let tr = document.createElement('tr');
+            for (let data = 1; data < 9; data ++) {
+                let td = document.createElement('td')
+                td.id = `r${row}d${data}`
+                tr.appendChild(td)
+            }
+            guessTable.appendChild(tr)
+        }
+
+        // Mulberry32 PRNG
+        function seededRandom(seed) {
+            seed |= 0; // Ensure seed is a 32-bit integer
+            seed = (seed + 0x6D2B79F5) | 0;
+            let t = Math.imul(seed ^ (seed >>> 15), 1 | seed);
+            t = (t + Math.imul(t ^ (t >>> 13), 1 | t)) | 0;
+            return ((t ^ (t >>> 16)) >>> 0) / 4294967296; // Normalize to [0, 1)
+        }
+
+        function getJump(data) {
+            const randIndex = Math.round(seededRandom(currentDay) * (Object.keys(data).length - 0.5));
+            if (randIndex === Object.keys(jumpData).length) {
+                randIndex--
+            }
+            return Object.keys(data)[randIndex];
+        }
+
+        // Variable to store the loaded JSON data
+        let jumpData = {};
+        
+        // Fetch the JSON file
+        fetch('jumpData.json')
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                return response.json();
+            })
+            .then(data => {
+                jumpData = data;
+                console.log('JSON data loaded successfully');
+                // Populate the jumpList datalist
+                for (const key in jumpData) {
+                    if (jumpData.hasOwnProperty(key)) {
+                        const option = document.createElement('option');
+                        option.value = key;
+                        jumpListDatalist.appendChild(option);
+                    }
+                }
+                correctJump = getJump(jumpData);
+            })
+            .catch(error => {
+                console.error('Error loading JSON data:', error);
+                commentValue.textContent = 'Error loading JSON data: ' + error.message;
+            });
+        
+        // Handle form submission
+        searchForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const selectedJump = jumpInput.value.trim();
+            
+            if (selectedJump.length === 0 && game) {
+                commentValue.textContent = "Please enter a key";
+                return;
+            }
+            
+            if (Object.keys(jumpData).length === 0) {
+                commentValue.textContent = "JSON data is still loading, please try again shortly";
+                return;
+            }
+            
+            if (jumpData.hasOwnProperty(selectedJump)) {
+                commentValue.textContent = jumpData[selectedJump];
+
+                // Filling in the guess table and final result to copy
+                let td = document.getElementById(`r${attempt}d1`);
+                let check = checkName(selectedJump, correctJump);
+                td.textContent = selectedJump;
+                td.setAttribute("style", `background-color: ${check[0]}`)
+                resultText += "\n" + check[1];
+
+                td = document.getElementById(`r${attempt}d2`);
+                check = checkID(selectedJump, correctJump);
+                td.textContent = jumpData[selectedJump][0] + check[2];
+                td.setAttribute("style", `background-color: ${check[0]}`);
+                resultText += check[1];
+
+                td = document.getElementById(`r${attempt}d3`);
+                check = checkDifficulty(selectedJump, correctJump);
+                let difficulty = jumpData[selectedJump][1].toString();
+                // Replacing decimal point with -/=/+
+                if (difficulty.slice(-2) === '.2') {
+                    difficulty = difficulty.slice(0, -2) + '+';
+                } else if (difficulty.slice(-2) === '.1') {
+                    difficulty = difficulty.slice(0, -2) + '=';
+                } else {
+                    difficulty += '-';
+                }
+                td.textContent = difficulty + check[2];
+                td.setAttribute("style", `background-color: ${check[0]}`);
+                resultText += check[1];
+
+                td = document.getElementById(`r${attempt}d4`);
+                check = checkTags(selectedJump, correctJump);
+                td.textContent = jumpData[selectedJump][2].join(", ");
+                td.setAttribute("style", `background-color: ${check[0]}`);
+                resultText += check[1];
+
+                td = document.getElementById(`r${attempt}d5`);
+                check = checkClearRate(selectedJump, correctJump);
+                td.textContent = jumpData[selectedJump][3] + "%" + check[2];
+                td.setAttribute("style", `background-color: ${check[0]}`);
+                resultText += check[1];
+
+                td = document.getElementById(`r${attempt}d6`);
+                check = checkSeries(selectedJump, correctJump);
+                td.textContent = jumpData[selectedJump][4].join(", ");
+                td.setAttribute("style", `background-color: ${check[0]}`);
+                resultText += check[1];
+
+                td = document.getElementById(`r${attempt}d7`);
+                check = checkVerifier(selectedJump, correctJump);
+                td.textContent = jumpData[selectedJump][5];
+                td.setAttribute("style", `background-color: ${check[0]}`);
+                resultText += check[1];
+
+                td = document.getElementById(`r${attempt}d8`);
+                check = checkAirtime(selectedJump, correctJump);
+                td.textContent = jumpData[selectedJump][6] + check[2];
+                td.setAttribute("style", `background-color: ${check[0]}`);
+                resultText += check[1];
+
+                attemptCounter.textContent = `Attempts: ${attempt}/6`;
+
+                if (selectedJump === correctJump || attempt === 6) {
+                    const button = document.getElementById('enter');
+                    button.removeAttribute('type');
+                    button.setAttribute('onclick', 'copyResults()');
+                    button.textContent = "Share";
+                    jumpInput.setAttribute('readonly', true);
+                    commentValue.textContent = getComment(attempt) + ` Guessed the jump in ${attempt}/6 attempts.`;
+                }
+                if (selectedJump === correctJump) {
+                    game = false;
+                } else {
+                    attempt++
+                    if (attempt === 7) {
+                        attempt = "X";
+                        attemptCounter.textContent = "Attempts: X/6";
+                        commentValue.textContent = `Yikes! The correct jump is "${correctJump}"`
+                    }
+                }
+            } else {
+                if (game) {
+                    commentValue.textContent = `"${selectedJump}" not found in the JSON data.`;
+                }
+            }
+            jumpInput.value = "";
+        });
+
+        function getComment(attempts) {
+            switch (attempts) {
+                case 1:
+                    return "You probably cheated or you're RNG carried af."
+                    break;
+                case 2:
+                    return "You might be GOATED."
+                    break;
+                case 3:
+                    return "You probably lost a 50/50. Unlucky!"
+                    break;
+                case 4:
+                    return "Your did it. good jorb."
+                    break;
+                case 5:
+                    return "Did you forget how to count your ticks?"
+                    break;
+                case 6:
+                    return "Phew! That was a close one."
+                    break;
+            }
+        }
+
+        function copyResults() {
+            // Use the Clipboard API to write the text to the clipboard
+            navigator.clipboard.writeText(`HPK OJdle ${currentDay-20352} - ${attempt}/6${resultText}`)
+                .then(() => {
+                    alert('Copied results to clipboard!');
+                })
+                .catch(err => {
+                    console.error('Failed to copy result: ', err);
+                    alert('Failed to copy text.');
+                });
+        };
+
+        function checkName(guess, correct) {
+            if (guess === correct) {
+                return ["#00B000", "🟩"];
+            } else {
+                return ["#EE0000", "🟥"];
+            }
+        }
+
+        function checkID(guess, correct) {
+            if (jumpData[guess][0] < jumpData[correct][0]) {
+                return ["#EE0000", "🟥", " ⬆️"];
+            } else if (jumpData[guess][0] > jumpData[correct][0]) {
+                return ["#EE0000", "🟥", " ⬇️"];
+            } else {
+                return ["#00B000", "🟩", ""];
+            }
+        }
+
+        function checkDifficulty(guess, correct) {
+            if (jumpData[guess][1] < jumpData[correct][1]) {
+                return ["#EE0000", "🟥", " ⬆️"];
+            } else if (jumpData[guess][1] > jumpData[correct][1]) {
+                return ["#EE0000", "🟥", " ⬇️"];
+            } else {
+                return ["#00B000", "🟩", ""];
+            }
+        }
+
+        function checkTags(guess, correct) {
+            jumpData[guess][2].sort();
+            jumpData[correct][2].sort();
+            if (jumpData[guess][2] === jumpData[correct][2]) {
+                return ["#00B000", "🟩"];
+            } else {
+                let foundTag = false;
+                for (const tag of jumpData[guess][2]) {
+                    if (jumpData[correct][2].includes(tag)) {
+                        foundTag = true;
+                        break;
+                    }
+                }
+                if (foundTag) {
+                    return ["#EEA000", "🟨"];
+                } else {
+                    return ["#EE0000", "🟥"];
+                }
+            }
+        }
+
+        function checkClearRate(guess, correct) {
+            if (jumpData[guess][3] < jumpData[correct][3]) {
+                return ["#EE0000", "🟥", " ⬆️"];
+            } else if (jumpData[guess][3] > jumpData[correct][3]) {
+                return ["#EE0000", "🟥", " ⬇️"];
+            } else {
+                return ["#00B000", "🟩", ""];
+            }
+        }
+
+        function checkSeries(guess, correct) {
+            jumpData[guess][4].sort();
+            jumpData[correct][4].sort();
+            if (jumpData[guess][4] === jumpData[correct][4]) {
+                return ["#00B000", "🟩"];
+            } else {
+                let foundSeries = false;
+                for (const tag of jumpData[guess][4]) {
+                    if (jumpData[correct][4].includes(tag)) {
+                        foundSeries = true;
+                        break;
+                    }
+                }
+                if (foundSeries) {
+                    return ["#EEA000", "🟨"];
+                } else {
+                    return ["#EE0000", "🟥"];
+                }
+            }
+        }
+
+        function checkVerifier(guess, correct) {
+            if (jumpData[guess][5] === jumpData[correct][5]) {
+                return ["#00B000", "🟩"];
+            } else {
+                return ["#EE0000", "🟥"];
+            }
+        }
+
+        function checkAirtime(guess, correct) {
+            if (jumpData[guess][6] < jumpData[correct][6]) {
+                return ["#EE0000", "🟥", " ⬆️"];
+            } else if (jumpData[guess][6] > jumpData[correct][6]) {
+                return ["#EE0000", "🟥", " ⬇️"];
+            } else {
+                return ["#00B000", "🟩", ""];
+            }
+        }
+    </script>
+</html>
