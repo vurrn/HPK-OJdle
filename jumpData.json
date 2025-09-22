@@ -97,6 +97,7 @@
     "pane to fence s neo postwalled": [341, 9.0, ["neo", "hard input"], 1.8, ["none"], "unknown", 10],
     "2 block gapped double triple": [411, 9.0, ["neo", "45 strafe", "45 strafe neo"], 1.28, ["none"], "markful", 12],
     "2bm 3bc fence to fence": [415, 9.1, ["neo", "inertia"], 1.21, ["none"], "unknown", 11],
+    "2bm pane to block double neo": [418, 9.0, ["neo, hard input, inertia"], 1.39, ["none"], "rex", 12],
     "2bm on x pane to pane": [419, 9.0, ["neo"], 1.37, ["none"], "unknown", 12],
     "1bmhh 5b triple neo": [421, 9.1, ["linear", "neo", "grinding", "hard input"], 0.83, ["none"], "yes24", 12],
     "1bm x double gapped double winged": [423, 9.1, ["neo", "hard input", "inertia"], 0.85, ["none"], "voodles", 12],
@@ -319,5 +320,6 @@
     "sw 2bm (x) double cross neo": [1079, 8.2, ["neo"], 1.0, ["none"], "unknown", 12],
     "pane on mm ladder fw t2c2t3c neo": [1081, 8.1, ["neo"], 1.05, ["none"], "unknown", 12]
 }
+
 
 
