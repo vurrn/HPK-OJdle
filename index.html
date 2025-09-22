@@ -186,8 +186,6 @@
             }
             
             if (jumpData.hasOwnProperty(selectedJump)) {
-                commentValue.textContent = jumpData[selectedJump];
-
                 // Filling in the guess table and final result to copy
                 let td = document.getElementById(`r${attempt}d1`);
                 let check = checkName(selectedJump, correctJump);
@@ -423,3 +421,4 @@
         }
     </script>
 </html>
+
