@@ -19,7 +19,7 @@
     "single piston bfly": [343, 10.0, ["neo", "onejump lobby"], 0.72, ["onejump lobby"], "btff", 12],
     "bfly to cw": [344, 10.0, ["neo", "inertia avoiding", "onejump lobby"], 0.95, ["onejump lobby"], "rex", 13],
     "3jmm true nix": [345, 10.2, ["neo", "inertia", "onejump lobby"], 0.3, ["onejump lobby"], "benja", 12],
-    "1bm squeeze to squeeze bfly ": [346, 10.1, ["neo", "onejump lobby"], 0.42, ["onejump lobby"], "benja", 12],
+    "1bm squeeze to squeeze bfly": [346, 10.1, ["neo", "onejump lobby"], 0.42, ["onejump lobby"], "benja", 12],
     "trapdoor to slab inv nix": [347, 10.1, ["neo", "hard input", "inertia", "onejump lobby"], 0.56, ["onejump lobby"], "benja", 13],
     "2jmm inv nix ": [422, 10.1, ["neo"], 0.6, ["HPK lobby"], "zaithay", 12],
     "1.4375bm double winged +1 tier": [424, 10.0, ["neo", "inertia"], 0.65, ["none"], "morpheye", 11],
@@ -319,3 +319,4 @@
     "sw 2bm (x) double cross neo": [1079, 8.2, ["neo"], 1.0, ["none"], "unknown", 12],
     "pane on mm ladder fw t2c2t3c neo": [1081, 8.1, ["neo"], 1.05, ["none"], "unknown", 12]
 }
+
