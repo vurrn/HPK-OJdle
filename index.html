@@ -87,7 +87,7 @@
         </form>
     </div>
     
-    <div id="resultSection">
+    <div id="resultSection" class="centerContainer">
         <p id="commentValue"></p>
         <p id="test"></p>
     </div>
@@ -95,7 +95,6 @@
     <script>
         let attempt = 1;
         let resultText = "";
-        let correctJump = "";
         let game = true;
 
         const currentDate = new Date();
@@ -111,6 +110,7 @@
         const jumpListDatalist = document.getElementById('jumpList');
         const commentValue = document.getElementById('commentValue');
         const attemptCounter = document.getElementById('attemptCounter');
+        const resultSection = document.getElementById('resultSection');
         
         // Add rows and data cells to the table
         for (let row = 1; row < 7; row++) {
@@ -162,7 +162,6 @@
                         jumpListDatalist.appendChild(option);
                     }
                 }
-                correctJump = getJump(jumpData);
             })
             .catch(error => {
                 console.error('Error loading JSON data:', error);
@@ -174,6 +173,7 @@
             e.preventDefault();
             
             const selectedJump = jumpInput.value.trim();
+            const correctJump = getJump(jumpData);
             
             if (selectedJump.length === 0 && game) {
                 commentValue.textContent = "Please enter a key";
@@ -247,23 +247,24 @@
                 attemptCounter.textContent = `Attempts: ${attempt}/6`;
 
                 if (selectedJump === correctJump || attempt === 6) {
-                    const button = document.getElementById('enter');
-                    button.removeAttribute('type');
+                    const submitButton = document.getElementById('enter');
+                    submitButton.removeAttribute('type');
                     jumpInput.removeAttribute('id');
                     jumpInput.removeAttribute('list');
-                    button.setAttribute('onclick', 'copyResults()');
-                    button.textContent = "Share";
                     jumpInput.setAttribute('readonly', true);
                     commentValue.textContent = getComment(attempt) + ` Guessed the jump in ${attempt}/6 attempts.`;
-                }
-                if (selectedJump === correctJump) {
+                    const shareButton = document.createElement('button');
+                    shareButton.setAttribute('onclick', 'copyResults()')
+                    shareButton.textContent = "Share";
+                    resultSection.appendChild(shareButton);
                     game = false;
-                } else {
+                }
+                if (selectedJump != correctJump) {
                     attempt++
                     if (attempt === 7) {
                         attempt = "X";
                         attemptCounter.textContent = "Attempts: X/6";
-                        commentValue.textContent = `Yikes! The correct jump is "${correctJump}"`
+                        commentValue.textContent = `Yikes! The correct jump was "${correctJump}"`
                     }
                 }
             } else {
@@ -286,10 +287,10 @@
                     return "You probably lost a 50/50. Unlucky!"
                     break;
                 case 4:
-                    return "Your did it. good jorb."
+                    return "You did it, great job!"
                     break;
                 case 5:
-                    return "Did you forget how to count your ticks?"
+                    return "Not bad."
                     break;
                 case 6:
                     return "Phew! That was a close one."
@@ -299,7 +300,7 @@
 
         function copyResults() {
             // Use the Clipboard API to write the text to the clipboard
-            navigator.clipboard.writeText(`HPK OJdle ${currentDay-20352} - ${attempt}/6${resultText}\nhttps://vurrn.github.io/HPK-OJdle/`)
+            navigator.clipboard.writeText(`HPK OJdle ${currentDay-20352} - ${attempt}/6${resultText}\nhttps://vurrn.github.io/hpk-ojdle/`)
                 .then(() => {
                     alert('Copied results to clipboard!');
                 })
@@ -344,8 +345,6 @@
             correctTag.sort();
             guessTag = guessTag.join();
             correctTag = correctTag.join();
-            console.log(guessTag);
-            console.log(correctTag);
             if (guessTag === correctTag) {
                 return ["#00B000", "🟩"];
             } else {
@@ -381,10 +380,7 @@
             correctSeries.sort();
             guessSeries = guessSeries.join();
             correctSeries = correctSeries.join();
-            console.log(guessSeries);
-            console.log(correctSeries);
             if (guessSeries === correctSeries) {
-                console.log('help');
                 return ["#00B000", "🟩"];
             } else {
                 let foundSeries = false;
@@ -421,4 +417,3 @@
         }
     </script>
 </html>
-
