@@ -132,14 +132,6 @@
             return ((t ^ (t >>> 16)) >>> 0) / 4294967296; // Normalize to [0, 1)
         }
 
-        function getJump(data) {
-            const randIndex = Math.round(seededRandom(currentDay) * (Object.keys(data).length - 0.5));
-            if (randIndex === Object.keys(jumpData).length) {
-                randIndex--
-            }
-            return Object.keys(data)[randIndex];
-        }
-
         // Variable to store the loaded JSON data
         let jumpData = {};
         
@@ -173,7 +165,11 @@
             e.preventDefault();
             
             const selectedJump = jumpInput.value.trim();
-            const correctJump = getJump(jumpData);
+            const randIndex = Math.round(seededRandom(currentDay) * (Object.keys(jumpData).length - 0.5));
+            if (randIndex === Object.keys(jumpData).length) {
+                randIndex--
+            }
+            const correctJump = Object.keys(jumpData)[randIndex];
             
             if (selectedJump.length === 0 && game) {
                 commentValue.textContent = "Please enter a key";
