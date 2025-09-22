@@ -1,7 +1,7 @@
 {
     "1bm head bfly": [154, 12.0, ["neo", "hard input"], 0.0, ["HPK lobby"], "unverified", 12],
     "true quad 45": [155, 11.0, ["linear", "45 strafe", "chained 45 strafe"], 0.16, ["HPK lobby"], "lapislala", 12],
-    "1bm cobblewall to cobwalled winged": [716, 11.2, ["neo", "hard input"], 0.04, ["HPK lobby"], "1bmm", 12],
+    "1bm cobblewall to cobblewall winged": [716, 11.2, ["neo", "hard input"], 0.04, ["HPK lobby"], "1bmm", 12],
     "2bm (z) p2p": [718, 11.0, ["neo", "hard input"], 0.06, ["HPK lobby"], "1bmm", 12],
     "1bm 5.3125-1.5 (d11 loop)": [828, 11.0, ["linear", "45 strafe", "chained 45 strafe", "loop"], 0.08, ["none"], "azusa", 15],
     "sidewalled single piston bfly 1bl": [925, 11.1, ["neo", "hard landing"], 0.04, ["none"], "1bmm", 12],
@@ -319,4 +319,5 @@
     "sw 2bm (x) double cross neo": [1079, 8.2, ["neo"], 1.0, ["none"], "unknown", 12],
     "pane on mm ladder fw t2c2t3c neo": [1081, 8.1, ["neo"], 1.05, ["none"], "unknown", 12]
 }
+
 
