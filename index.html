@@ -172,7 +172,7 @@
             const correctJump = Object.keys(jumpData)[randIndex];
             
             if (selectedJump.length === 0 && game) {
-                commentValue.textContent = "Please enter a key";
+                commentValue.textContent = "Please enter a valud jump.";
                 return;
             }
             
@@ -265,7 +265,7 @@
                 }
             } else {
                 if (game) {
-                    commentValue.textContent = `"${selectedJump}" not found in the JSON data.`;
+                    commentValue.textContent = `"${selectedJump}" not found in the jump data.`;
                 }
             }
             jumpInput.value = "";
@@ -280,7 +280,7 @@
                     return "You might be GOATED."
                     break;
                 case 3:
-                    return "You probably lost a 50/50. Unlucky!"
+                    return "You probably lost a 50/50, unlucky!"
                     break;
                 case 4:
                     return "You did it, great job!"
@@ -413,3 +413,4 @@
         }
     </script>
 </html>
+
