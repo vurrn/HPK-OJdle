@@ -63,8 +63,10 @@
     </style>
 </head>
 <body style="background-color: #333333">
-    <h1><b>HPK OJdle</b></h1>
-    <p>🟥 Incorrect/no match | 🟨 Partial match | 🟩 Correct/perfect match | ⬆️ Correct value is higher | ⬇️ Correct value is lower</p>
+    <input type="checkbox" id="colorblindMode" onclick="toggleColorblind()">
+    <label for="colorblindMode" style="color: white">Colorblind mode</label>
+    <h1 style="margin-top: 0px;"><b>HPK OJdle</b></h1>
+    <p id="legendText">🟥 Incorrect/no match | 🟨 Partial match | 🟩 Correct/perfect match | ⬆️ Correct value is higher | ⬇️ Correct value is lower</p>
     <table id="guessTable">
         <tr>
             <th>Jump Name</th>
@@ -96,6 +98,7 @@
         let attempt = 1;
         let resultText = "";
         let game = true;
+        let colorblindMode = false;
 
         const currentDate = new Date();
         let currentDay = Math.floor((currentDate.getTime() / 60000 - currentDate.getTimezoneOffset()) / 1440);
@@ -104,6 +107,7 @@
         }
 
         // Get DOM elements
+        const legendText = document.getElementById('legendText');
         const guessTable = document.getElementById('guessTable');
         const searchForm = document.getElementById('searchForm');
         const jumpInput = document.getElementById('jumpInput');
@@ -295,6 +299,10 @@
         }
 
         function copyResults() {
+            if (colorblindMode) {
+                resultText = resultText.replace(/🟨/g, '🟦');
+                resultText = resultText.replace(/🟩/g, '🟨');
+            }
             // Use the Clipboard API to write the text to the clipboard
             navigator.clipboard.writeText(`HPK OJdle ${currentDay-20352} - ${attempt}/6${resultText}\nhttps://vurrn.github.io/hpk-ojdle/`)
                 .then(() => {
@@ -304,37 +312,97 @@
                     console.error('Failed to copy result: ', err);
                     alert('Failed to copy text.');
                 });
-        };
+        }
+
+        function toggleColorblind() {
+            colorblindMode = !colorblindMode;
+            if (colorblindMode) {
+                legendText.textContent = "🟥 Incorrect/no match | 🟦 Partial match | 🟨 Correct/perfect match | ⬆️ Correct value is higher | ⬇️ Correct value is lower";
+            } else {
+                legendText.textContent = "🟥 Incorrect/no match | 🟨 Partial match | 🟩 Correct/perfect match | ⬆️ Correct value is higher | ⬇️ Correct value is lower";
+            }
+            rowLoop: for (row = 1; row < 7; row++) {
+                for (data = 1; data < 9; data++) {
+                    const cell = document.getElementById(`r${row}d${data}`);
+                    let cellColor = cell.getAttribute('style');
+                    if (cellColor === null) {
+                        break rowLoop;
+                    } else {
+                        cellColor = cellColor.slice(-7);
+                    }
+                    cell.setAttribute('style', `background-color: ${changeHex(cellColor)}`);
+                }
+            }
+        }
+
+        function changeHex(color) {
+                switch (color) {
+                    case "#EE0000":
+                        return "#F03060";
+                        break;
+                    case "#EEA000":
+                        return "#4080F0";
+                        break;
+                    case "#00B000":
+                        return "#FFC040";
+                        break;
+                    case "#F03060":
+                        return "#EE0000";
+                        break;
+                    case "#4080F0":
+                        return "#EEA000";
+                        break;
+                    case "#FFC040":
+                        return "#00B000";
+                        break;
+            }
+        }
 
         function checkName(guess, correct) {
+            let returnValue = [];
             if (guess === correct) {
-                return ["#00B000", "🟩"];
+                returnValue =  ["#00B000", "🟩"];
             } else {
-                return ["#EE0000", "🟥"];
+                returnValue =  ["#EE0000", "🟥"];
             }
+            if (colorblindMode) {
+                returnValue[0] = changeHex(returnValue[0]);
+            }
+            return returnValue;
         }
 
         function checkID(guess, correct) {
+            let returnValue = [];
             if (jumpData[guess][0] < jumpData[correct][0]) {
-                return ["#EE0000", "🟥", " ⬆️"];
+                returnValue =  ["#EE0000", "🟥", " ⬆️"];
             } else if (jumpData[guess][0] > jumpData[correct][0]) {
-                return ["#EE0000", "🟥", " ⬇️"];
+                returnValue =  ["#EE0000", "🟥", " ⬇️"];
             } else {
-                return ["#00B000", "🟩", ""];
+                returnValue =  ["#00B000", "🟩", ""];
             }
+            if (colorblindMode) {
+                returnValue[0] = changeHex(returnValue[0]);
+            }
+            return returnValue;
         }
 
         function checkDifficulty(guess, correct) {
+            let returnValue = [];
             if (jumpData[guess][1] < jumpData[correct][1]) {
-                return ["#EE0000", "🟥", " ⬆️"];
+                returnValue =  ["#EE0000", "🟥", " ⬆️"];
             } else if (jumpData[guess][1] > jumpData[correct][1]) {
-                return ["#EE0000", "🟥", " ⬇️"];
+                returnValue =  ["#EE0000", "🟥", " ⬇️"];
             } else {
-                return ["#00B000", "🟩", ""];
+                returnValue =  ["#00B000", "🟩", ""];
             }
+            if (colorblindMode) {
+                returnValue[0] = changeHex(returnValue[0]);
+            }
+            return returnValue;
         }
 
         function checkTags(guess, correct) {
+            let returnValue = [];
             let guessTag = jumpData[guess][2];
             let correctTag = jumpData[correct][2];
             guessTag.sort();
@@ -342,7 +410,7 @@
             guessTag = guessTag.join();
             correctTag = correctTag.join();
             if (guessTag === correctTag) {
-                return ["#00B000", "🟩"];
+                returnValue =  ["#00B000", "🟩"];
             } else {
                 let foundTag = false;
                 for (const tag of jumpData[guess][2]) {
@@ -352,24 +420,34 @@
                     }
                 }
                 if (foundTag) {
-                    return ["#EEA000", "🟨"];
+                    returnValue =  ["#EEA000", "🟨"];
                 } else {
-                    return ["#EE0000", "🟥"];
+                    returnValue =  ["#EE0000", "🟥"];
                 }
             }
+            if (colorblindMode) {
+                returnValue[0] = changeHex(returnValue[0]);
+            }
+            return returnValue;
         }
 
         function checkClearRate(guess, correct) {
+            let returnValue = [];
             if (jumpData[guess][3] < jumpData[correct][3]) {
-                return ["#EE0000", "🟥", " ⬆️"];
+                returnValue =  ["#EE0000", "🟥", " ⬆️"];
             } else if (jumpData[guess][3] > jumpData[correct][3]) {
-                return ["#EE0000", "🟥", " ⬇️"];
+                returnValue =  ["#EE0000", "🟥", " ⬇️"];
             } else {
-                return ["#00B000", "🟩", ""];
+                returnValue =  ["#00B000", "🟩", ""];
             }
+            if (colorblindMode) {
+                returnValue[0] = changeHex(returnValue[0]);
+            }
+            return returnValue;
         }
 
         function checkSeries(guess, correct) {
+            let returnValue = [];
             let guessSeries = jumpData[guess][4];
             let correctSeries = jumpData[correct][4];
             guessSeries.sort();
@@ -377,7 +455,7 @@
             guessSeries = guessSeries.join();
             correctSeries = correctSeries.join();
             if (guessSeries === correctSeries) {
-                return ["#00B000", "🟩"];
+                returnValue =  ["#00B000", "🟩"];
             } else {
                 let foundSeries = false;
                 for (const tag of jumpData[guess][4]) {
@@ -387,30 +465,43 @@
                     }
                 }
                 if (foundSeries) {
-                    return ["#EEA000", "🟨"];
+                    returnValue =  ["#EEA000", "🟨"];
                 } else {
-                    return ["#EE0000", "🟥"];
+                    returnValue =  ["#EE0000", "🟥"];
                 }
             }
+            if (colorblindMode) {
+                returnValue[0] = changeHex(returnValue[0]);
+            }
+            return returnValue;
         }
 
         function checkVerifier(guess, correct) {
+            let returnValue = [];
             if (jumpData[guess][5] === jumpData[correct][5]) {
-                return ["#00B000", "🟩"];
+                returnValue =  ["#00B000", "🟩"];
             } else {
-                return ["#EE0000", "🟥"];
+                returnValue =  ["#EE0000", "🟥"];
             }
+            if (colorblindMode) {
+                returnValue[0] = changeHex(returnValue[0]);
+            }
+            return returnValue;
         }
 
         function checkAirtime(guess, correct) {
+            let returnValue = [];
             if (jumpData[guess][6] < jumpData[correct][6]) {
-                return ["#EE0000", "🟥", " ⬆️"];
+                returnValue =  ["#EE0000", "🟥", " ⬆️"];
             } else if (jumpData[guess][6] > jumpData[correct][6]) {
-                return ["#EE0000", "🟥", " ⬇️"];
+                returnValue =  ["#EE0000", "🟥", " ⬇️"];
             } else {
-                return ["#00B000", "🟩", ""];
+                returnValue =  ["#00B000", "🟩", ""];
             }
+            if (colorblindMode) {
+                returnValue[0] = changeHex(returnValue[0]);
+            }
+            return returnValue;
         }
     </script>
 </html>
-
