@@ -299,12 +299,15 @@
         }
 
         function copyResults() {
+            let textToCopy = "";
             if (colorblindMode) {
-                resultText = resultText.replace(/🟨/g, '🟦');
-                resultText = resultText.replace(/🟩/g, '🟨');
+                textToCopy = resultText.replace(/🟨/g, '🟦');
+                textToCopy = textToCopy.replace(/🟩/g, '🟨');
+            } else {
+                textToCopy = resultText;
             }
             // Use the Clipboard API to write the text to the clipboard
-            navigator.clipboard.writeText(`HPK OJdle ${currentDay-20352} - ${attempt}/6${resultText}\nhttps://vurrn.github.io/hpk-ojdle/`)
+            navigator.clipboard.writeText(`HPK OJdle ${currentDay-20352} - ${attempt}/6${textToCopy}\nhttps://vurrn.github.io/hpk-ojdle/`)
                 .then(() => {
                     alert('Copied results to clipboard!');
                 })
