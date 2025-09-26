@@ -101,7 +101,7 @@
         let colorblindMode = false;
 
         const currentDate = new Date();
-        let currentDay = Math.floor((currentDate.getTime() / 60000 - currentDate.getTimezoneOffset()) / 1440);
+        let currentDay = Math.floor((currentDate.getTime() / 60000 - currentDate.getTimezoneOffset()) / 1440) - 1;
         if (currentDay < 20353) {
             currentDay = 20353;
         }
@@ -195,13 +195,13 @@
 
                 td = document.getElementById(`r${attempt}d2`);
                 check = checkID(selectedJump, correctJump);
-                td.textContent = jumpData[selectedJump][0] + check[2];
+                td.textContent = jumpData[selectedJump]['id'] + check[2];
                 td.setAttribute("style", `background-color: ${check[0]}`);
                 resultText += check[1];
 
                 td = document.getElementById(`r${attempt}d3`);
                 check = checkDifficulty(selectedJump, correctJump);
-                let difficulty = jumpData[selectedJump][1].toString();
+                let difficulty = jumpData[selectedJump]['difficulty'].toString();
                 // Replacing decimal point with -/=/+
                 if (difficulty.slice(-2) === '.2') {
                     difficulty = difficulty.slice(0, -2) + '+';
@@ -216,31 +216,31 @@
 
                 td = document.getElementById(`r${attempt}d4`);
                 check = checkTags(selectedJump, correctJump);
-                td.textContent = jumpData[selectedJump][2].join(", ");
+                td.textContent = jumpData[selectedJump]['tags'].join(", ");
                 td.setAttribute("style", `background-color: ${check[0]}`);
                 resultText += check[1];
 
                 td = document.getElementById(`r${attempt}d5`);
                 check = checkClearRate(selectedJump, correctJump);
-                td.textContent = jumpData[selectedJump][3] + "%" + check[2];
+                td.textContent = jumpData[selectedJump]['clearrate'] + "%" + check[2];
                 td.setAttribute("style", `background-color: ${check[0]}`);
                 resultText += check[1];
 
                 td = document.getElementById(`r${attempt}d6`);
                 check = checkSeries(selectedJump, correctJump);
-                td.textContent = jumpData[selectedJump][4].join(", ");
+                td.textContent = jumpData[selectedJump]['series'].join(", ");
                 td.setAttribute("style", `background-color: ${check[0]}`);
                 resultText += check[1];
 
                 td = document.getElementById(`r${attempt}d7`);
                 check = checkVerifier(selectedJump, correctJump);
-                td.textContent = jumpData[selectedJump][5];
+                td.textContent = jumpData[selectedJump]['verifier'];
                 td.setAttribute("style", `background-color: ${check[0]}`);
                 resultText += check[1];
 
                 td = document.getElementById(`r${attempt}d8`);
                 check = checkAirtime(selectedJump, correctJump);
-                td.textContent = jumpData[selectedJump][6] + check[2];
+                td.textContent = jumpData[selectedJump]['airtime'] + check[2];
                 td.setAttribute("style", `background-color: ${check[0]}`);
                 resultText += check[1];
 
@@ -376,9 +376,9 @@
 
         function checkID(guess, correct) {
             let returnValue = [];
-            if (jumpData[guess][0] < jumpData[correct][0]) {
+            if (jumpData[guess]['id'] < jumpData[correct]['id']) {
                 returnValue =  ["#EE0000", "🟥", " ⬆️"];
-            } else if (jumpData[guess][0] > jumpData[correct][0]) {
+            } else if (jumpData[guess]['id'] > jumpData[correct]['id']) {
                 returnValue =  ["#EE0000", "🟥", " ⬇️"];
             } else {
                 returnValue =  ["#00B000", "🟩", ""];
@@ -391,9 +391,9 @@
 
         function checkDifficulty(guess, correct) {
             let returnValue = [];
-            if (jumpData[guess][1] < jumpData[correct][1]) {
+            if (jumpData[guess]['difficulty'] < jumpData[correct]['difficulty']) {
                 returnValue =  ["#EE0000", "🟥", " ⬆️"];
-            } else if (jumpData[guess][1] > jumpData[correct][1]) {
+            } else if (jumpData[guess]['difficulty'] > jumpData[correct]['difficulty']) {
                 returnValue =  ["#EE0000", "🟥", " ⬇️"];
             } else {
                 returnValue =  ["#00B000", "🟩", ""];
@@ -406,18 +406,17 @@
 
         function checkTags(guess, correct) {
             let returnValue = [];
-            let guessTag = jumpData[guess][2];
-            let correctTag = jumpData[correct][2];
-            guessTag.sort();
-            correctTag.sort();
+            let guessTag = jumpData[guess]['tags'];
+            let correctTag = jumpData[correct]['tags'];
             guessTag = guessTag.join();
             correctTag = correctTag.join();
             if (guessTag === correctTag) {
                 returnValue =  ["#00B000", "🟩"];
             } else {
                 let foundTag = false;
-                for (const tag of jumpData[guess][2]) {
-                    if (jumpData[correct][2].includes(tag)) {
+                for (const tag of jumpData[guess]['tags']) {
+                    console.log(tag);
+                    if (jumpData[correct]['tags'].includes(tag)) {
                         foundTag = true;
                         break;
                     }
@@ -436,9 +435,9 @@
 
         function checkClearRate(guess, correct) {
             let returnValue = [];
-            if (jumpData[guess][3] < jumpData[correct][3]) {
+            if (jumpData[guess]['clearrate'] < jumpData[correct]['clearrate']) {
                 returnValue =  ["#EE0000", "🟥", " ⬆️"];
-            } else if (jumpData[guess][3] > jumpData[correct][3]) {
+            } else if (jumpData[guess]['clearrate'] > jumpData[correct]['clearrate']) {
                 returnValue =  ["#EE0000", "🟥", " ⬇️"];
             } else {
                 returnValue =  ["#00B000", "🟩", ""];
@@ -451,18 +450,16 @@
 
         function checkSeries(guess, correct) {
             let returnValue = [];
-            let guessSeries = jumpData[guess][4];
-            let correctSeries = jumpData[correct][4];
-            guessSeries.sort();
-            correctSeries.sort();
+            let guessSeries = jumpData[guess]['series'];
+            let correctSeries = jumpData[correct]['series'];
             guessSeries = guessSeries.join();
             correctSeries = correctSeries.join();
             if (guessSeries === correctSeries) {
                 returnValue =  ["#00B000", "🟩"];
             } else {
                 let foundSeries = false;
-                for (const tag of jumpData[guess][4]) {
-                    if (jumpData[correct][4].includes(tag)) {
+                for (const series of jumpData[guess]['series']) {
+                    if (jumpData[correct]['series'].includes(series)) {
                         foundSeries = true;
                         break;
                     }
@@ -481,7 +478,7 @@
 
         function checkVerifier(guess, correct) {
             let returnValue = [];
-            if (jumpData[guess][5] === jumpData[correct][5]) {
+            if (jumpData[guess]['verifier'] === jumpData[correct]['verifier']) {
                 returnValue =  ["#00B000", "🟩"];
             } else {
                 returnValue =  ["#EE0000", "🟥"];
@@ -494,9 +491,9 @@
 
         function checkAirtime(guess, correct) {
             let returnValue = [];
-            if (jumpData[guess][6] < jumpData[correct][6]) {
+            if (jumpData[guess]['airtime'] < jumpData[correct]['airtime']) {
                 returnValue =  ["#EE0000", "🟥", " ⬆️"];
-            } else if (jumpData[guess][6] > jumpData[correct][6]) {
+            } else if (jumpData[guess]['airtime'] > jumpData[correct]['airtime']) {
                 returnValue =  ["#EE0000", "🟥", " ⬇️"];
             } else {
                 returnValue =  ["#00B000", "🟩", ""];
