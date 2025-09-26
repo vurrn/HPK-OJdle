@@ -101,7 +101,7 @@
         let colorblindMode = false;
 
         const currentDate = new Date();
-        let currentDay = Math.floor((currentDate.getTime() / 60000 - currentDate.getTimezoneOffset()) / 1440) - 1;
+        let currentDay = Math.floor((currentDate.getTime() / 60000 - currentDate.getTimezoneOffset()) / 1440);
         if (currentDay < 20353) {
             currentDay = 20353;
         }
@@ -505,3 +505,4 @@
         }
     </script>
 </html>
+
