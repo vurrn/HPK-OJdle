@@ -389,7 +389,7 @@
   "3bm 5.0625-.5 (3bm 5-.5 to cake)": {
     "id": 120,
     "difficulty": 9.0,
-    "tags": ["linear", "45 strafe", "chained 45 strafe,"],
+    "tags": ["linear", "45 strafe", "chained 45 strafe"],
     "clearrate": 1.84,
     "series": ["none"],
     "verifier": "joshy",
@@ -2880,3 +2880,4 @@
     "airtime": 12
   }
 }
+
