@@ -150,13 +150,35 @@
             .then(data => {
                 jumpData = data;
                 console.log('JSON data loaded successfully');
+                
                 // Populate the jumpList datalist
-                for (const key in jumpData) {
-                    if (jumpData.hasOwnProperty(key)) {
-                        const option = document.createElement('option');
-                        option.value = key;
-                        jumpListDatalist.appendChild(option);
+                function shuffleArray(array) {
+                    let currentIndex = array.length,
+                        randomIndex;
+
+                    // While there remain elements to shuffle.
+                    while (currentIndex !== 0) {
+                        // Pick a remaining element.
+                        randomIndex = Math.floor(Math.random() * currentIndex);
+                        currentIndex--;
+
+                        // And swap it with the current element.
+                        [array[currentIndex], array[randomIndex]] = [
+                        array[randomIndex],
+                        array[currentIndex],
+                        ];
                     }
+                    return array;
+                }
+
+                const jumpNames = shuffleArray(Object.keys(jumpData));
+
+                for (const i in jumpNames) {
+                    if (jumpData.hasOwnProperty(jumpNames[i])) {
+                        const option = document.createElement('option');
+                        option.value = jumpNames[i];
+                        jumpListDatalist.appendChild(option);
+                     }
                 }
             })
             .catch(error => {
@@ -505,5 +527,6 @@
         }
     </script>
 </html>
+
 
 
