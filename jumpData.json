@@ -2204,14 +2204,14 @@
     "verifier": "unknown",
     "airtime": 13
   },
-  "0bm cross neup": {
-    "id": 687,
-    "difficulty": 8.1,
-    "tags": ["neo"],
-    "clearrate": 2.01,
+  "1jmm trapdoor to sensor nix neo +1 tier": {
+    "id": 425,
+    "difficulty": 10.0,
+    "tags": ["neo", "inertia", "inertia avoiding"],
+    "clearrate": 0.65,
     "series": ["none"],
-    "verifier": "unknown",
-    "airtime": 9
+    "verifier": "1bmm",
+    "airtime": 11
   },
   "3bm backwalled web + s neo mm 4+.5 gapped double neo": {
     "id": 690,
@@ -2880,4 +2880,5 @@
     "airtime": 12
   }
 }
+
 
