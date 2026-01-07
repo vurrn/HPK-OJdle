@@ -80,6 +80,24 @@
     "verifier": "joetato",
     "airtime": 8
   },
+  "x pane to head sneo": {
+    "id": 1149,
+    "difficulty": 11.0,
+    "tags": ["neo"],
+    "clearrate": 0.03,
+    "series": ["none"],
+    "verifier": "1bmm",
+    "airtime": 12
+  },
+  "2x2bm nix neo": {
+    "id": 1150,
+    "difficulty": 11.2,
+    "tags": ["neo", "inertia"],
+    "clearrate": 0.02,
+    "series": ["none"],
+    "verifier": "1bmm",
+    "airtime": 12
+  },
   "1bm 5-1 triple neo": {
     "id": 144,
     "difficulty": 10.0,
@@ -119,7 +137,7 @@
   "1bm slab to fence 3x3": {
     "id": 152,
     "difficulty": 10.2,
-    "tags": ["neo", "linear", "45 strafe", "chained 45 strafe", "onejump lobby"],
+    "tags": ["linear", "45 strafe", "chained 45 strafe", "onejump lobby"],
     "clearrate": 0.39,
     "series": ["onejump lobby"],
     "verifier": "drakou",
@@ -278,14 +296,14 @@
     "verifier": "1bmm",
     "airtime": 9
   },
-  "x facing egg to block bfly": {
+  "t1c to thin cobblewall neo + 1 tier": {
     "id": 961,
-    "difficulty": 10.2,
-    "tags": ["neo", "hard input"],
-    "clearrate": 0.16,
+    "difficulty": 10.0,
+    "tags": ["neo", "inertia"],
+    "clearrate": 0.10,
     "series": ["none"],
-    "verifier": "centrepiece",
-    "airtime": 12
+    "verifier": "cilent",
+    "airtime": 11
   },
   "1bm pregapped fence to thin cobblewall": {
     "id": 996,
@@ -359,6 +377,15 @@
     "verifier": "kuro",
     "airtime": 12
   },
+  "x 1bm double postgapped inverse nix sneo": {
+    "id": 1148,
+    "difficulty": 10.0,
+    "tags": ["neo"],
+    "clearrate": 0.11,
+    "series": ["none"],
+    "verifier": "1bmm",
+    "airtime": 12
+  },
   "hh short pane to pane": {
     "id": 108,
     "difficulty": 9.2,
@@ -389,7 +416,7 @@
   "3bm 5.0625-.5 (3bm 5-.5 to cake)": {
     "id": 120,
     "difficulty": 9.0,
-    "tags": ["linear", "45 strafe", "chained 45 strafe"],
+    "tags": ["linear", "45 strafe", "chained 45 strafe,"],
     "clearrate": 1.84,
     "series": ["none"],
     "verifier": "joshy",
@@ -425,7 +452,7 @@
   "1bm pane to cobble wall +1 tier": {
     "id": 125,
     "difficulty": 9.2,
-    "tags": ["neo", "hard input", "inertia avoiding "],
+    "tags": ["neo", "hard input", "inertia avoiding"],
     "clearrate": 0.71,
     "series": ["none"],
     "verifier": "rex",
@@ -602,14 +629,14 @@
     "verifier": "rex",
     "airtime": 12
   },
-  "head to fence +1 tier": {
+  "1bm chest inverse nix to block 1bl": {
     "id": 150,
-    "difficulty": 9.2,
-    "tags": ["neo", "inertia"],
-    "clearrate": 1.17,
+    "difficulty": 9.0,
+    "tags": ["neo"],
+    "clearrate": 0.2,
     "series": ["none"],
-    "verifier": "rex",
-    "airtime": 11
+    "verifier": "cilent",
+    "airtime": 12
   },
   "head to cobblewall": {
     "id": 151,
@@ -1109,7 +1136,7 @@
   "2.125bm triple": {
     "id": 859,
     "difficulty": 9.2,
-    "tags": ["neo", "45 strafe", "chained 45 strafe", "45 strafe neo "],
+    "tags": ["neo", "45 strafe", "chained 45 strafe", "45 strafe neo"],
     "clearrate": 0.51,
     "series": ["none"],
     "verifier": "morpheye",
@@ -1411,6 +1438,51 @@
     "series": ["none"],
     "verifier": "reichesbrot",
     "airtime": 12
+  },
+  "head frontwalled t3c to t2c double neo -2": {
+    "id": 1143,
+    "difficulty": 9.0,
+    "tags": ["neo", "inertia"],
+    "clearrate": 0.27,
+    "series": ["none"],
+    "verifier": "1bmm",
+    "airtime": 15
+  },
+  "1bm pane to pane around web": {
+    "id": 1144,
+    "difficulty": 9.1,
+    "tags": ["neo", "hard input"],
+    "clearrate": 0.2,
+    "series": ["none"],
+    "verifier": "lilkez",
+    "airtime": 12
+  },
+  "1bm cross neo to head butterfly neo": {
+    "id": 1145,
+    "difficulty": 9.1,
+    "tags": ["neo", "hard input"],
+    "clearrate": 0.26,
+    "series": ["none"],
+    "verifier": "1bmm",
+    "airtime": 12
+  },
+  "1jmm ladder to ladder catch moth neo 1bl": {
+    "id": 1146,
+    "difficulty": 9.1,
+    "tags": ["neo", "hard landing", "inertia"],
+    "clearrate": 0.11,
+    "series": ["none"],
+    "verifier": "kuro",
+    "airtime": 14
+  },
+  "3bc cobblewall nix neo": {
+    "id": 1147,
+    "difficulty": 9.2,
+    "tags": ["neo"],
+    "clearrate": 0.17,
+    "series": ["none"],
+    "verifier": "1bmm",
+    "airtime": 11
   },
   "egg to block double winged": {
     "id": 79,
@@ -1898,23 +1970,23 @@
     "verifier": "unknown",
     "airtime": 9
   },
-  "1bm p2p 5-1": {
+  "flowerpot to fence winged neo -1": {
     "id": 311,
     "difficulty": 8.1,
-    "tags": ["linear", "45 strafe", "chained 45 strafe", "45bwmm", "hard input"],
-    "clearrate": 2.4,
+    "tags": ["neo", "hard input"],
+    "clearrate": 0.51,
     "series": ["none"],
-    "verifier": "unknown",
+    "verifier": "1bmm",
     "airtime": 14
   },
-  ".9375bm bw c4.5": {
+  "cobblewall to block inverse nix sneo -0.5": {
     "id": 312,
-    "difficulty": 8.1,
-    "tags": ["linear", "45 strafe", "chained 45 strafe", "45bwmm"],
-    "clearrate": 2.36,
+    "difficulty": 8.2,
+    "tags": ["neo"],
+    "clearrate": 0.36,
     "series": ["none"],
-    "verifier": "morpheye",
-    "airtime": 11
+    "verifier": "unknown",
+    "airtime": 13
   },
   "1.5625bm double neup": {
     "id": 313,
@@ -2033,23 +2105,23 @@
     "verifier": "unknown",
     "airtime": 8
   },
-  "sneo mm 1.0625bm 2.5bc 2.625": {
+  "gapped front head to front head ladder winged neo": {
     "id": 393,
-    "difficulty": 8.0,
-    "tags": ["linear", "45 strafe", "chained 45 strafe", "45bwmm", "hard input"],
-    "clearrate": 2.83,
+    "difficulty": 8.2,
+    "tags": ["neo"],
+    "clearrate": 0.35,
     "series": ["none"],
-    "verifier": "morpheye",
-    "airtime": 6
+    "verifier": "unknown",
+    "airtime": 12
   },
-  "sneo mm .9375bm r2c": {
+  "piston base to piston base postgapped true nix neo": {
     "id": 394,
     "difficulty": 8.1,
-    "tags": ["linear", "45 strafe", "chained 45 strafe", "45bwmm", "hard input"],
-    "clearrate": 2.41,
+    "tags": ["neo", "hard input", "inertia"],
+    "clearrate": 0.38,
     "series": ["none"],
-    "verifier": "morpheye",
-    "airtime": 13
+    "verifier": "unknown",
+    "airtime": 12
   },
   "c2b 4x1": {
     "id": 396,
@@ -2078,14 +2150,14 @@
     "verifier": "unknown",
     "airtime": 12
   },
-  "sneo mm 1.0625bm 3.8125+.5": {
+  "1bm webbed ladder to vine neo +2": {
     "id": 400,
-    "difficulty": 8.1,
-    "tags": ["linear", "45 strafe", "chained 45 strafe", "45bwmm", "hard input"],
-    "clearrate": 2.17,
+    "difficulty": 8.0,
+    "tags": ["neo"],
+    "clearrate": 0.35,
     "series": ["none"],
-    "verifier": "pkearth",
-    "airtime": 10
+    "verifier": "unknown",
+    "airtime": 9
   },
   "12bm c2b triple": {
     "id": 402,
@@ -2204,14 +2276,14 @@
     "verifier": "unknown",
     "airtime": 13
   },
-  "1jmm trapdoor to sensor nix neo +1 tier": {
-    "id": 425,
-    "difficulty": 10.0,
-    "tags": ["neo", "inertia", "inertia avoiding"],
-    "clearrate": 0.65,
+  "0bm cross neup": {
+    "id": 687,
+    "difficulty": 8.1,
+    "tags": ["neo"],
+    "clearrate": 2.01,
     "series": ["none"],
-    "verifier": "1bmm",
-    "airtime": 11
+    "verifier": "unknown",
+    "airtime": 9
   },
   "3bm backwalled web + s neo mm 4+.5 gapped double neo": {
     "id": 690,
@@ -2222,13 +2294,13 @@
     "verifier": "prograde",
     "airtime": 10
   },
-  "0.75bm run mm 4.25": {
+  "1bm soulsand double winged neo": {
     "id": 691,
     "difficulty": 8.1,
-    "tags": ["linear", "45 strafe", "chained 45 strafe"],
-    "clearrate": 2.52,
+    "tags": ["neo", "inertia"],
+    "clearrate": 0.36,
     "series": ["none"],
-    "verifier": "joshy",
+    "verifier": "unknown",
     "airtime": 12
   },
   "16bm 3.375b neo (triple + 2 tds)": {
@@ -2878,7 +2950,86 @@
     "series": ["none"],
     "verifier": "unknown",
     "airtime": 12
+  },
+  "tier 4 elevation mm 5jmm true nix neo": {
+    "id": 1134,
+    "difficulty": 8.0,
+    "tags": ["neo", "inertia"],
+    "clearrate": 0.61,
+    "series": ["none"],
+    "verifier": "unknown",
+    "airtime": 12
+  },
+  "waterchest to waterchest head butterfly neo": {
+    "id": 1135,
+    "difficulty": 8.1,
+    "tags": ["neo", "water", "hard landing", "hard input"],
+    "clearrate": 0.25,
+    "series": ["none"],
+    "verifier": "unknown",
+    "airtime": 15
+  },
+  "x trapdoor to ladder landing neup": {
+    "id": 1136,
+    "difficulty": 8.0,
+    "tags": ["neo"],
+    "clearrate": 0.39,
+    "series": ["none"],
+    "verifier": "unknown",
+    "airtime": 9
+  },
+  "2jmm double cross neo to td": {
+    "id": 1137,
+    "difficulty": 8.1,
+    "tags": ["neo"],
+    "clearrate": 0.49,
+    "series": ["none"],
+    "verifier": "unknown",
+    "airtime": 12
+  },
+  "x 1bm sidewalled frontwalled pregapped cross neup": {
+    "id": 1138,
+    "difficulty": 8.1,
+    "tags": ["neo"],
+    "clearrate": 0.29,
+    "series": ["none"],
+    "verifier": "unknown",
+    "airtime": 9
+  },
+  "backwall sidewall 3x3bm triple nix neo -5": {
+    "id": 1139,
+    "difficulty": 8.2,
+    "tags": ["neo"],
+    "clearrate": 0.45,
+    "series": ["none"],
+    "verifier": "reichesbrot",
+    "airtime": 19
+  },
+  "backwalled 3bm double neo to pane": {
+    "id": 1140,
+    "difficulty": 8.2,
+    "tags": ["neo", "45 strafe neo", "inertia"],
+    "clearrate": 0.31,
+    "series": ["none"],
+    "verifier": "unknown",
+    "airtime": 12
+  },
+  "x 1bm side trapdoor to block true nix neo": {
+    "id": 1141,
+    "difficulty": 8.2,
+    "tags": ["neo", "inertia"],
+    "clearrate": 0.23,
+    "series": ["none"],
+    "verifier": "unknown",
+    "airtime": 12
+  },
+  "single thin cobblewall chest neo": {
+    "id": 1142,
+    "difficulty": 8.0,
+    "tags": ["neo", "hard landing", "inertia avoiding"],
+    "clearrate": 0.53,
+    "series": ["none"],
+    "verifier": "1bmm",
+    "airtime": 12
   }
 }
-
-
